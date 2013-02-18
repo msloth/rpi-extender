@@ -48,50 +48,9 @@
 void spi_init(void);
 void spi_send(uint8_t *buf, uint8_t len);
 /*--------------------------------------------------------------------------*/
-/* All pins are on port 1 */
+/* All pins are on port 1; all but CS are config'ed automatically by USI */
 #define SPI_PORT(type)          P1##type
-#define SPI_MOSI                (1<<7)
-#define SPI_MISO                (1<<6)
-#define SPI_SCL                 (1<<5)
 #define SPI_CS                  (1<<4)
-/*--------------------------------------------------------------------------*/
-#define SPI_TXBUF               UCB0TXBUF
-#define SPI_RXBUF               UCB0RXBUF
-
-/* wait until SPI is not in use, ie no SPI transfer is happening */
-#define SPI_WAIT_WHILE_BUSY()             while(UCB0STAT & UCBUSY){}
-
-#define SPI_WAITFOR_EOTx()       while ((UCB0STAT & UCBUSY) == 0)
-#define SPI_WAITFOR_EORx()       while ((IFG2 & UCB0RXIFG) == 0)
-#define SPI_WAITFOR_TxREADY()    while ((IFG2 & UCB0TXIFG) == 0)
-
-/* wait until there is data in rx buffer; for rx a dummy write to tx is needed */
-#define SPI_WAIT_FOR_RECVD()              while((IFG2 & UCB0RXIFG) == 0){}
-
-/* wait until ready to put another byte in tx buffer; nb does not mean done with
-    tx of previous */
-#define SPI_WAIT_FOR_TX_RDY()             while((IFG2 & UCB0TXIFG) == 0){}
-
-/* tx one byte, wait until next tx byte can be put  */
-#define SPI_WRITE(x)        do {                                               \
-                              SPI_WAIT_FOR_TX_RDY();                           \
-                              SPI_TXBUF = x;                                   \
-                              SPI_WAIT_WHILE_BUSY();                           \
-                            } while(0)
-
-/* tx but don't block (only non-blocking) until tx done; used in burstwriting */
-#define SPI_WRITE_FAST(data)    do {                                           \
-                                  SPI_WAIT_FOR_TX_RDY();                       \
-                                  SPI_TXBUF = data;                            \
-                                } while(0)
-
-/* Read one character from SPI; tx a dummy byte */
-#define SPI_READ(data)      do {                                               \
-                              SPI_WAIT_FOR_TX_RDY();                           \
-                              SPI_TXBUF = 0; /*dummy*/                         \
-                              SPI_WAIT_WHILE_BUSY();                           \
-                              data = SPI_RXBUF;                                \
-                            } while(0)
 /*--------------------------------------------------------------------------*/
 #endif /* __SPI_H__ */
 

@@ -34,9 +34,8 @@
  * \author
  *    Marcus Lunden <marcus.lunden@gmail.com>
  * \desc
- *    SPI drivers for g2231
+ *    SPI drivers for MCUs with only a hardware USI-module (not USCI), such as g2231 or g2452
  */
-
 
 #include <msp430.h>
 #include <isr_compat.h>
@@ -44,7 +43,15 @@
 #include "spi.h"
 #include "pwm.h"
 #include "adc.h"
+/*---------------------------------------------------------------------------*/
+typedef enum SPI_STATE {
+  IDLE,
+  SEND_ALL_ADC,
+  SET_PWM,
+} spi_state_t;
 
+static spi_state_t spi_state = IDLE;
+static volatile uint8_t last_master_cmd = 0;
 /*---------------------------------------------------------------------------*/
 void
 spi_init(void)
@@ -55,12 +62,10 @@ spi_init(void)
   USICTL1 = USISWRST;
 
   /* Initialize all USI registers */
-  USICTL0 |= USICKPH;
+  USICTL0 = USICKPH | USIPE7 | USIPE6 | USIPE5;
   USICTL1 |= USISSEL_2;
 
-  /* Configure ports */
-  SPI_PORT(SEL)  |= SPI_MISO | SPI_MOSI | SPI_SCL;
-
+  /* Configure chip select */
   SPI_PORT(SEL)  &= ~SPI_CS;
   SPI_PORT(DIR)  &= ~SPI_CS;
 
@@ -76,12 +81,24 @@ spi_send(uint8_t *buf, uint8_t len)
   
 }
 /*---------------------------------------------------------------------------*/
-#if 1
+#define SPI_CMD_FIELD       (0xF0)
 ISR(USI, usi_isr)
 {
-  ;
+  last_master_cmd = USISRL;
+  switch(last_master_cmd & SPI_CMD_FIELD) {
+  case CMD_GET_ADC:
+    
+    break;
+  case CMD_GET_ADC_ALL:
+    
+    break;
+  case :
+    
+    break;
+  default:
+    
+    break;
+  }
 }
-#endif /* if 0; commented out code */
 /*---------------------------------------------------------------------------*/
-
 
