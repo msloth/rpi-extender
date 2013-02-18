@@ -574,6 +574,7 @@ sfrw(USICCTL, USICCTL_);
 #define USISR_                0x007C    /* USI  Shift Register */
 sfrw(USISR, USISR_);
 
+// USICTL0
 #define USIPE7              (0x80)    /* USI  Port Enable Px.7 */
 #define USIPE6              (0x40)    /* USI  Port Enable Px.6 */
 #define USIPE5              (0x20)    /* USI  Port Enable Px.5 */
@@ -583,6 +584,7 @@ sfrw(USISR, USISR_);
 #define USIOE               (0x02)    /* USI  Output Enable */
 #define USISWRST            (0x01)    /* USI  Software Reset */
 
+// USICTL1
 #define USICKPH             (0x80)    /* USI  Sync. Mode: Clock Phase */
 #define USII2C              (0x40)    /* USI  I2C Mode */
 #define USISTTIE            (0x20)    /* USI  START Condition interrupt enable */
@@ -592,15 +594,10 @@ sfrw(USISR, USISR_);
 #define USISTTIFG           (0x02)    /* USI  START Condition interrupt Flag */
 #define USIIFG              (0x01)    /* USI  Counter Interrupt Flag */
 
+// USICKCTL
 #define USIDIV2             (0x80)    /* USI  Clock Divider 2 */
 #define USIDIV1             (0x40)    /* USI  Clock Divider 1 */
 #define USIDIV0             (0x20)    /* USI  Clock Divider 0 */
-#define USISSEL2            (0x10)    /* USI  Clock Source Select 2 */
-#define USISSEL1            (0x08)    /* USI  Clock Source Select 1 */
-#define USISSEL0            (0x04)    /* USI  Clock Source Select 0 */
-#define USICKPL             (0x02)    /* USI  Clock Polarity 0:Inactive=Low / 1:Inactive=High */
-#define USISWCLK            (0x01)    /* USI  Software Clock */
-
 #define USIDIV_0            (0x00)    /* USI  Clock Divider: 0 */
 #define USIDIV_1            (0x20)    /* USI  Clock Divider: 1 */
 #define USIDIV_2            (0x40)    /* USI  Clock Divider: 2 */
@@ -609,7 +606,9 @@ sfrw(USISR, USISR_);
 #define USIDIV_5            (0xA0)    /* USI  Clock Divider: 5 */
 #define USIDIV_6            (0xC0)    /* USI  Clock Divider: 6 */
 #define USIDIV_7            (0xE0)    /* USI  Clock Divider: 7 */
-
+#define USISSEL2            (0x10)    /* USI  Clock Source Select 2 */
+#define USISSEL1            (0x08)    /* USI  Clock Source Select 1 */
+#define USISSEL0            (0x04)    /* USI  Clock Source Select 0 */
 #define USISSEL_0           (0x00)    /* USI  Clock Source: 0 */
 #define USISSEL_1           (0x04)    /* USI  Clock Source: 1 */
 #define USISSEL_2           (0x08)    /* USI  Clock Source: 2 */
@@ -618,7 +617,10 @@ sfrw(USISR, USISR_);
 #define USISSEL_5           (0x14)    /* USI  Clock Source: 5 */
 #define USISSEL_6           (0x18)    /* USI  Clock Source: 6 */
 #define USISSEL_7           (0x1C)    /* USI  Clock Source: 7 */
+#define USICKPL             (0x02)    /* USI  Clock Polarity 0:Inactive=Low / 1:Inactive=High */
+#define USISWCLK            (0x01)    /* USI  Software Clock */
 
+// USICNT
 #define USISCLREL           (0x80)    /* USI  SCL Released */
 #define USI16B              (0x40)    /* USI  16 Bit Shift Register Enable */
 #define USIIFGCC            (0x20)    /* USI  Interrupt Flag Clear Control */
