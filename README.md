@@ -11,3 +11,4 @@ and PWM outputs.
 The extender mcu is a SPI slave and waits for commands from the rpi. It is constantly
 in low-power mode, just doing ADC and waiting for SPI communications.
 
+Compile to hex and upload to a Launchpad, remove the MCU and hook it up to the rpi.
