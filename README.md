@@ -1,12 +1,18 @@
-rpi-extender
-============
+# rpi-extender
 
 rpi-extender is a TI Launchpad MSP430-based extender to the Raspberry Pi.
+
+Current status: just begun working on it, so not working yet. Will update this status
+line as development proceeds, so you know when you can actually use it.
+
+## Motivation
 
 I got a rpi and started messing around with it and noticed it have no hardware ADC
 on the exposed GPIOs, so this project is about getting a leftover MSP430 (preferrably
 the 'g2231 or '2452) to act as an extender, providing the rpi with some ADC inputs
 and PWM outputs.
+
+## Details
 
 The extender mcu is a SPI slave and waits for commands from the rpi. It is constantly
 in low-power mode, just doing ADC and waiting for SPI communications.
