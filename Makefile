@@ -2,13 +2,16 @@
 # System code files
 SOURCEFILES = msp430-arch.c adc.c pwm.c
 
-# Use USI-peripheral instead of USCI by running 'make USI=1 all'
+# check for USI or USCI
 ifdef USI
 SOURCEFILES += spi-usi.c
+CFLAGS += -DUSI_SPI
 else
 SOURCEFILES += spi-usci.c
+CFLAGS += -DUSCI_SPI
 endif
 
+# check for choice of microcontroller
 ifdef MSP
 # if MCU is defined on the command line, we use that one
 MCU=$(MSP)
