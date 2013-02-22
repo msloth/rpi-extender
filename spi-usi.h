@@ -30,75 +30,34 @@
 
 /**
  * \file
- *    spi.c
+ *    spi-usi.h
  * \author
  *    Marcus Lunden <marcus.lunden@gmail.com>
  * \desc
- *    SPI drivers for MCUs with only a hardware USI-module (not USCI), such as g2231 or g2452
+ *    SPI drivers for g2231 with USI HW peripheral
  */
 
+
+#ifndef __SPI_USI_H__
+#define __SPI_USI_H__
+
+/*--------------------------------------------------------------------------*/
 #include <msp430.h>
-#include <isr_compat.h>
 #include <stdint.h>
-#include "spi.h"
-#include "pwm.h"
-#include "adc.h"
-/*---------------------------------------------------------------------------*/
-typedef enum SPI_STATE {
-  IDLE,
-  SEND_ALL_ADC,
-  SET_PWM,
-} spi_state_t;
+/*--------------------------------------------------------------------------*/
+void spi_init(void);
+void spi_send(uint8_t *buf, uint8_t len);
+/*--------------------------------------------------------------------------*/
+/* All pins are on port 1; all but CS are config'ed automatically by USI */
+#define SPI_PORT(type)          P1##type
+#define SPI_CS                  (1<<4)
 
-static spi_state_t spi_state = IDLE;
-static volatile uint8_t last_master_cmd = 0;
-/*---------------------------------------------------------------------------*/
-void
-spi_init(void)
-{
-/* note: this is adapted to the USI present on g2231 and g2452. This differs from
-    the USCI-peripherals present on eg g2553. */
-
-  USICTL1 = USISWRST;
-
-  /* Initialize all USI registers */
-  USICTL0 = USICKPH | USIPE7 | USIPE6 | USIPE5;
-  USICTL1 |= USISSEL_2;
-
-  /* Configure chip select */
-  SPI_PORT(SEL)  &= ~SPI_CS;
-  SPI_PORT(DIR)  &= ~SPI_CS;
-
-  /* Clear UCSWRST */
-  USICTL1 &= ~USISWRST;
-
-  /* Enable interrupts */
-}
-/*---------------------------------------------------------------------------*/
-void
-spi_send(uint8_t *buf, uint8_t len)
-{
-  
-}
-/*---------------------------------------------------------------------------*/
-#define SPI_CMD_FIELD       (0xF0)
-ISR(USI, usi_isr)
-{
-  last_master_cmd = USISRL;
-  switch(last_master_cmd & SPI_CMD_FIELD) {
-  case CMD_GET_ADC:
-    
-    break;
-  case CMD_GET_ADC_ALL:
-    
-    break;
-  case :
-    
-    break;
-  default:
-    
-    break;
-  }
-}
-/*---------------------------------------------------------------------------*/
+/* definitions for the first byte sent by the SPI master */
+#define SPI_CMD_FIELD       (0xC0)    // 0b1100 0000
+#define SPI_ADDRESS_FIELD   (0x3F)    // 0b0011 1111
+#define CMD_GET_ADC         (1 << 6)
+#define CMD_GET_ADC_ALL     (2 << 6)
+#define CMD_SET_PWM         (3 << 6)
+/*--------------------------------------------------------------------------*/
+#endif /* __SPI_USI_H__ */
 

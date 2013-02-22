@@ -30,16 +30,16 @@
 
 /**
  * \file
- *    spi.h
+ *    spi-usci.h
  * \author
  *    Marcus Lunden <marcus.lunden@gmail.com>
  * \desc
- *    SPI drivers for g2231
+ *    SPI drivers for MCUs with a hardware USCI-module such as g2553
  */
 
 
-#ifndef __SPI_H__
-#define __SPI_H__
+#ifndef __SPI_USCI_H__
+#define __SPI_USCI_H__
 
 /*--------------------------------------------------------------------------*/
 #include <msp430.h>
@@ -51,6 +51,13 @@ void spi_send(uint8_t *buf, uint8_t len);
 /* All pins are on port 1; all but CS are config'ed automatically by USI */
 #define SPI_PORT(type)          P1##type
 #define SPI_CS                  (1<<4)
+
+/* definitions for the first byte sent by the SPI master */
+#define SPI_CMD_FIELD       (0xC0)    // 0b1100 0000
+#define SPI_ADDRESS_FIELD   (0x3F)    // 0b0011 1111
+#define CMD_GET_ADC         (1 << 6)
+#define CMD_GET_ADC_ALL     (2 << 6)
+#define CMD_SET_PWM         (3 << 6)
 /*--------------------------------------------------------------------------*/
-#endif /* __SPI_H__ */
+#endif /* __SPI_USCI_H__ */
 
