@@ -68,7 +68,7 @@ help:
 
 # remove all object files etc
 clean:
-	rm -fr $(PROJECT).elf $(OBJS) $(PROJECT)
+	rm -fr $(PROJECT).elf $(OBJECTFILES)
 
 # erase the device
 erase:
