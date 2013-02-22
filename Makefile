@@ -72,12 +72,11 @@ clean:
 
 # erase the device
 erase:
-	mspdebug rf2500 "erase"
+	@mspdebug rf2500 "erase"
 	
-# upload to the device
-ul:
-	make
-	mspdebug rf2500 "prog $(PROJFILE).elf"
+# upload the binary to the device
+upload:
+	@mspdebug rf2500 "prog $(PROJECTFILES:.c=.elf)"
 
 
 
