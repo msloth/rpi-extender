@@ -31,8 +31,8 @@ endif  # MSP
 
 #-----------------------------------------------------------------
 # source- and object files
-PROJECTFILES = rpiextender.c
-SOURCEFILES += $(PROJECTFILES)
+MAINFILE = rpiextender.c
+SOURCEFILES += $(MAINFILE)
 OBJECTFILES = $(SOURCEFILES:.c=.o)
 
 CC =      msp430-gcc
@@ -68,7 +68,7 @@ help:
 
 # remove all object files etc
 clean:
-	rm -fr $(PROJECT).elf $(OBJECTFILES)
+	rm -fr $(MAINFILE:.c=.elf) $(OBJECTFILES)
 
 # erase the device
 erase:
@@ -76,7 +76,7 @@ erase:
 	
 # upload the binary to the device
 upload:
-	@mspdebug rf2500 "prog $(PROJECTFILES:.c=.elf)"
+	@mspdebug rf2500 "prog $(MAINFILE:.c=.elf)"
 
 
 
