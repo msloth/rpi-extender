@@ -30,18 +30,25 @@
 
 /**
  * \file
- *    
+ *    rpiextender.c
  * \author
  *    Marcus Lunden <marcus.lunden@gmail.com>
  * \desc
- *    
+ *    Raspberry Pi extender, main file. Event based, so just enters LPM.
  */
 /*---------------------------------------------------------------------------*/
 #include <msp430.h>
 #include "msp430-arch.h"
 #include "adc.h"
 #include "pwm.h"
-#include "spi.h"
+
+#if USI_SPI
+#include "spi-usci.h"
+#else   /* USI_SPI */
+#if USCI_SPI
+#include "spi-usi.h"
+#endif  /* USCI_SPI */
+#endif  /* USI_SPI */
 /*---------------------------------------------------------------------------*/
 void
 main(void) {
