@@ -50,7 +50,7 @@
 #endif  /* USCI_SPI */
 #endif  /* USI_SPI */
 /*---------------------------------------------------------------------------*/
-void
+int
 main(void) {
   msp430_arch_init();
   adc_init();
@@ -63,6 +63,7 @@ main(void) {
         adc - samples all channels, puts results in ADC buffer
         pwm - controlling PWM on any active PWM pins
      */
+   LPM3;
   }
 }
 /*---------------------------------------------------------------------------*/
